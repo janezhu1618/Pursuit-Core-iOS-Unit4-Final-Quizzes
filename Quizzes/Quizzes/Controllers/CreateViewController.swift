@@ -10,7 +10,7 @@ import UIKit
 
 class CreateViewController: UIViewController {
     
-    let createView = CreateView()
+    private let createView = CreateView()
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -10,7 +10,7 @@ import UIKit
 
 class SearchQuizzesViewController: UIViewController {
     
-    let searchQuizzesView = SearchQuizzesView()
+    private let searchQuizzesView = SearchQuizzesView()
     
     private var quizzes = [Quiz]() {
         didSet {
@@ -44,27 +44,6 @@ class SearchQuizzesViewController: UIViewController {
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
     }
-    
-    @objc private func addQuiz(sender: SearchCell) {
-        let quiz = quizzes[sender.tag]
-        let quizTitle = quiz.quizTitle
-        guard !SavedQuizModel.isDuplicate(quizTitle: quizTitle) else {
-            showAlert(title: "Duplicate", message: "\(quizTitle) already exist in your quizzes")
-            return
-        }
-        let date = Date()
-        let isoDateFormatter = ISO8601DateFormatter()
-        isoDateFormatter.formatOptions = [.withFullDate,
-                                          .withFullTime,
-                                          .withInternetDateTime,
-                                          .withTimeZone,
-                                          .withDashSeparatorInDate]
-        let timeStamp = isoDateFormatter.string(from: date)
-        
-        let quizToSave = SavedQuiz.init(quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
-        SavedQuizModel.add(newQuiz: quizToSave)
-         showAlert(title: "Success", message: "\(quizTitle) successfully added to your quizzes")
-    }
 }
 
 extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -80,5 +59,24 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
         return searchCell
     }
     
-
+    @objc private func addQuiz(sender: SearchCell) {
+        let quiz = quizzes[sender.tag]
+        let quizTitle = quiz.quizTitle
+        guard !SavedQuizModel.isDuplicate(quizTitle: quizTitle) else {
+            showAlert(title: "Duplicate", message: "\(quizTitle) already exists in your quizzes")
+            return
+        }
+        let date = Date()
+        let isoDateFormatter = ISO8601DateFormatter()
+        isoDateFormatter.formatOptions = [.withFullDate,
+                                          .withFullTime,
+                                          .withInternetDateTime,
+                                          .withTimeZone,
+                                          .withDashSeparatorInDate]
+        let timeStamp = isoDateFormatter.string(from: date)
+        
+        let quizToSave = SavedQuiz.init(quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
+        SavedQuizModel.add(newQuiz: quizToSave)
+        showAlert(title: "Success", message: "\(quizTitle) successfully added to your quizzes")
+    }
 }
