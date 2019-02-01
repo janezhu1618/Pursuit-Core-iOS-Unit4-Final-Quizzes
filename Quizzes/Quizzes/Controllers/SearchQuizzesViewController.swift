@@ -12,7 +12,7 @@ class SearchQuizzesViewController: UIViewController {
     
     let searchQuizzesView = SearchQuizzesView()
     
-    public var quizzes = [Quiz]() {
+    private var quizzes = [Quiz]() {
         didSet {
             DispatchQueue.main.async {
                 self.searchQuizzesView.collectionView.reloadData()
@@ -22,7 +22,6 @@ class SearchQuizzesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.title = "Search Quizzes"
         self.view.addSubview(searchQuizzesView)
         searchQuizzesView.collectionView.dataSource = self
         searchQuizzesView.collectionView.delegate = self
@@ -38,6 +37,34 @@ class SearchQuizzesViewController: UIViewController {
             }
         }
     }
+    
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default) { alert in }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    @objc private func addQuiz(sender: SearchCell) {
+        let quiz = quizzes[sender.tag]
+        let quizTitle = quiz.quizTitle
+        guard !SavedQuizModel.isDuplicate(quizTitle: quizTitle) else {
+            showAlert(title: "Duplicate", message: "\(quizTitle) already exist in your quizzes")
+            return
+        }
+        let date = Date()
+        let isoDateFormatter = ISO8601DateFormatter()
+        isoDateFormatter.formatOptions = [.withFullDate,
+                                          .withFullTime,
+                                          .withInternetDateTime,
+                                          .withTimeZone,
+                                          .withDashSeparatorInDate]
+        let timeStamp = isoDateFormatter.string(from: date)
+        
+        let quizToSave = SavedQuiz.init(quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
+        SavedQuizModel.add(newQuiz: quizToSave)
+         showAlert(title: "Success", message: "\(quizTitle) successfully added to your quizzes")
+    }
 }
 
 extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -48,6 +75,8 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let searchCell = searchQuizzesView.collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCell", for: indexPath) as? SearchCell else { return UICollectionViewCell() }
         searchCell.quizTitleLabel.text = quizzes[indexPath.row].quizTitle
+        searchCell.addButton.tag = indexPath.row
+        searchCell.addButton.addTarget(self, action: #selector(addQuiz), for: .touchUpInside)
         return searchCell
     }
     

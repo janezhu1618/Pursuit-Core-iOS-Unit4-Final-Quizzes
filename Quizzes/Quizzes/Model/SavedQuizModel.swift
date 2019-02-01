@@ -52,7 +52,7 @@ struct SavedQuizModel {
         save()
     }
     
-    static public func isFavorite(quizTitle: String) -> Bool {
+    static public func isDuplicate(quizTitle: String) -> Bool {
         let index = getSavedQuizzes().index { $0.quizTitle == quizTitle }
         var found = false
         if let _ = index {

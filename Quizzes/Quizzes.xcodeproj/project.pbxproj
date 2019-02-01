@@ -29,6 +29,7 @@
 		A5B7244A2204B06F004BC4DE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B724492204B06F004BC4DE /* ProfileView.swift */; };
 		A5B7244C2204B4A5004BC4DE /* SavedQuiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B7244B2204B4A5004BC4DE /* SavedQuiz.swift */; };
 		A5B7244E2204B562004BC4DE /* SavedQuizModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B7244D2204B562004BC4DE /* SavedQuizModel.swift */; };
+		A5B724502204C3E5004BC4DE /* QuizCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B7244F2204C3E5004BC4DE /* QuizCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -56,6 +57,7 @@
 		A5B724492204B06F004BC4DE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A5B7244B2204B4A5004BC4DE /* SavedQuiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedQuiz.swift; sourceTree = "<group>"; };
 		A5B7244D2204B562004BC4DE /* SavedQuizModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedQuizModel.swift; sourceTree = "<group>"; };
+		A5B7244F2204C3E5004BC4DE /* QuizCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -167,6 +169,7 @@
 				A5B724472204B05E004BC4DE /* CreateView.swift */,
 				A5B724492204B06F004BC4DE /* ProfileView.swift */,
 				A5B7243B2204A4E6004BC4DE /* SearchCell.swift */,
+				A5B7244F2204C3E5004BC4DE /* QuizCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				A5B7243E2204AED4004BC4DE /* TabBarController.swift in Sources */,
 				A5B724442204AFC9004BC4DE /* ProfileViewController.swift in Sources */,
 				A5B724462204B02F004BC4DE /* QuizView.swift in Sources */,
+				A5B724502204C3E5004BC4DE /* QuizCell.swift in Sources */,
 				A5B724392204A16F004BC4DE /* SearchQuizzesView.swift in Sources */,
 				577118DD22037B8E00B9DD0B /* Date+Extensions.swift in Sources */,
 			);

@@ -11,22 +11,38 @@ import UIKit
 class QuizViewController: UIViewController {
     
     let quizView = QuizView()
+    
+    private var savedQuizzes = [SavedQuiz]() {
+        didSet {
+            quizView.collectionView.reloadData()
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(quizView)
-        // Do any additional setup after loading the view.
+        quizView.collectionView.dataSource = self
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        savedQuizzes = SavedQuizModel.getSavedQuizzes()
     }
-    */
+    
+    
 
+
+}
+extension QuizViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return savedQuizzes.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let quizCell = quizView.collectionView.dequeueReusableCell(withReuseIdentifier: "QuizCell", for: indexPath) as? QuizCell else { return UICollectionViewCell() }
+        quizCell.quizTitleLabel.text = savedQuizzes[indexPath.row].quizTitle
+        return quizCell
+    }
+    
+    
 }
