@@ -27,8 +27,8 @@ class QuizDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Quiz Detail"
         view.addSubview(quizDetailView)
-        title = "Quiz Detail"
         quizDetailView.collectionView.dataSource = self
         quizDetailView.collectionView.delegate = self
     }

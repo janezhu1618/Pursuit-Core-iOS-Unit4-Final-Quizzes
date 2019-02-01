@@ -22,6 +22,7 @@ class SearchQuizzesViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Search Quizzes"
         self.view.addSubview(searchQuizzesView)
         searchQuizzesView.collectionView.dataSource = self
         searchQuizzesView.collectionView.delegate = self
@@ -63,7 +64,7 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
         let quiz = quizzes[sender.tag]
         let quizTitle = quiz.quizTitle
         guard !SavedQuizModel.isDuplicate(quizTitle: quizTitle) else {
-            showAlert(title: "Duplicate", message: "\(quizTitle) already exists in your quizzes")
+            showAlert(title: "Duplicate", message: "\(quizTitle) already exists in quizzes")
             return
         }
         let date = Date()
@@ -77,6 +78,6 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
         
         let quizToSave = SavedQuiz.init(quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
         SavedQuizModel.add(newQuiz: quizToSave)
-        showAlert(title: "Success", message: "\(quizTitle) successfully added to your quizzes")
+        showAlert(title: "Success", message: "\(quizTitle) is successfully added to quizzes")
     }
 }

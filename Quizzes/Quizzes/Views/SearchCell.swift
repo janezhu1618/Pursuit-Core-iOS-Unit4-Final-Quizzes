@@ -56,8 +56,8 @@ extension SearchCell {
         addButton.translatesAutoresizingMaskIntoConstraints = false
         [addButton.topAnchor.constraint(equalTo: topAnchor, constant: 11),
          addButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -11),
-         addButton.heightAnchor.constraint(equalToConstant: 30),
-         addButton.widthAnchor.constraint(equalToConstant: 30),
+         addButton.heightAnchor.constraint(equalToConstant: 48),
+         addButton.widthAnchor.constraint(equalToConstant: 48),
             ].forEach{ $0.isActive = true }
     }
 }

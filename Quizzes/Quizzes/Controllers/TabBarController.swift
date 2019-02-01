@@ -9,6 +9,8 @@
 import UIKit
 
 class TabBarController: UITabBarController {
+    
+    private var createNavBarController: UINavigationController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +23,7 @@ class TabBarController: UITabBarController {
         let profileViewController = ProfileViewController()
         profileViewController.tabBarItem = UITabBarItem(title: "Profile", image: UIImage(named: "profile-unfilled"), tag: 3)
         let tabBarList = [quizViewController, searchQuizzesViewController, createViewController, profileViewController]
-        viewControllers = tabBarList
+        viewControllers = tabBarList.map(UINavigationController.init)
     }
     
 

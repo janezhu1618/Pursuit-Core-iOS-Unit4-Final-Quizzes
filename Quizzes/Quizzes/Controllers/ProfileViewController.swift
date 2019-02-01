@@ -15,7 +15,7 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(profileView)
-        // Do any additional setup after loading the view.
+        navigationItem.title = "Profile"
     }
     
 

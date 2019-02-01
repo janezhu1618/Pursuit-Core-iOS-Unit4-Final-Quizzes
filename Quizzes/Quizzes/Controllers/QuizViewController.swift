@@ -25,6 +25,7 @@ class QuizViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Quizzes"
         view.addSubview(quizView)
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self
@@ -33,13 +34,8 @@ class QuizViewController: UIViewController {
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes()
     }
-    
-
-    
-    
-
-
 }
+
 extension QuizViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return savedQuizzes.count
