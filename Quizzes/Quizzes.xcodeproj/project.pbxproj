@@ -28,6 +28,7 @@
 		A5B724482204B05E004BC4DE /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B724472204B05E004BC4DE /* CreateView.swift */; };
 		A5B7244A2204B06F004BC4DE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B724492204B06F004BC4DE /* ProfileView.swift */; };
 		A5B7244C2204B4A5004BC4DE /* SavedQuiz.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B7244B2204B4A5004BC4DE /* SavedQuiz.swift */; };
+		A5B7244E2204B562004BC4DE /* SavedQuizModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B7244D2204B562004BC4DE /* SavedQuizModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		A5B724472204B05E004BC4DE /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 		A5B724492204B06F004BC4DE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		A5B7244B2204B4A5004BC4DE /* SavedQuiz.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedQuiz.swift; sourceTree = "<group>"; };
+		A5B7244D2204B562004BC4DE /* SavedQuizModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedQuizModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +142,7 @@
 			children = (
 				A5B7243022049D47004BC4DE /* Quiz.swift */,
 				A5B7244B2204B4A5004BC4DE /* SavedQuiz.swift */,
+				A5B7244D2204B562004BC4DE /* SavedQuizModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -246,6 +249,7 @@
 				577118D522037A9F00B9DD0B /* AppError.swift in Sources */,
 				A5B724362204A080004BC4DE /* SearchQuizzesViewController.swift in Sources */,
 				577118DA22037B5B00B9DD0B /* DataPersistenceManager.swift in Sources */,
+				A5B7244E2204B562004BC4DE /* SavedQuizModel.swift in Sources */,
 				A5B7244C2204B4A5004BC4DE /* SavedQuiz.swift in Sources */,
 				577118DF22037BAA00B9DD0B /* String+DateExtensions.swift in Sources */,
 				A5B7243422049DC1004BC4DE /* QuizAPIClient.swift in Sources */,
