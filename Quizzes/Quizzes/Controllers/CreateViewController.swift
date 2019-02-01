@@ -26,13 +26,41 @@ class CreateViewController: UIViewController {
         createView.quizFact2TextView.delegate = self
     }
     
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default) { alert in }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+    
     @objc private func createQuiz() {
-        print("create button pressed")
+        guard let titleText = createView.quizTitleTextField.text,
+            let fact1 = createView.quizFact1TextView.text,
+            let fact2 = createView.quizFact1TextView.text else {
+            showAlert(title: "Error", message: "Make sure all fields are filled in.")
+            return
+        }
+        if titleText != quizTitleTextFieldPlaceholder && fact1 != quizFact1TextViewPlaceholder && fact2 != quizFact2TextViewPlaceholder {
+        let date = Date()
+        let isoDateFormatter = ISO8601DateFormatter()
+        isoDateFormatter.formatOptions = [.withFullDate,
+                                          .withFullTime,
+                                          .withInternetDateTime,
+                                          .withTimeZone,
+                                          .withDashSeparatorInDate]
+        let timeStamp = isoDateFormatter.string(from: date)
+        let quizToSave = SavedQuiz.init(quizTitle: titleText, facts: [fact1, fact2], addedDate: timeStamp)
+        SavedQuizModel.add(newQuiz: quizToSave)
+        setupTextFieldAndTextView()
+            showAlert(title: "Success", message: "Quiz added to list.")
+        } else {
+            showAlert(title: "Error", message: "Make sure to enter info.")
+        }
     }
     
     fileprivate func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .plain, target: self, action: #selector(createQuiz))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
+   //     navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: nil)
         navigationItem.title = "Create Quiz"
     }
     
