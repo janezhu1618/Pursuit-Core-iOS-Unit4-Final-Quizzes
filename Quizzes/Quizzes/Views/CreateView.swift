@@ -10,14 +10,6 @@ import UIKit
 
 class CreateView: UIView {
     
-    public lazy var createButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Create", for: .normal)
-        button.setTitleColor(.black, for: .normal)
-        button.backgroundColor = .lightGray
-        return button
-    }()
-    
     public lazy var quizTitleTextField: UITextField = {
         let tf = UITextField()
         tf.backgroundColor = .white
@@ -63,21 +55,11 @@ class CreateView: UIView {
         setupQuizTitleTextField()
         setupQuizFact1TextView()
         setupQuizFact2TextView()
-        addSubview(createButton)
-        setupCreateButton()
     }
 
 }
 
 extension CreateView {
-    private func setupCreateButton() {
-        createButton.translatesAutoresizingMaskIntoConstraints = false
-        [createButton.topAnchor.constraint(equalTo: quizFact2TextView.bottomAnchor, constant: 22),
-         createButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-         createButton.heightAnchor.constraint(equalToConstant: 45),
-         createButton.widthAnchor.constraint(equalToConstant: 75)
-            ].forEach{ $0.isActive = true }
-    }
     private func setupQuizTitleTextField() {
         quizTitleTextField.translatesAutoresizingMaskIntoConstraints = false
         [quizTitleTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 22),
