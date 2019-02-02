@@ -70,7 +70,10 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
     }
     
     @objc private func addQuiz(sender: SearchCell) {
-        let quiz = quizzes[sender.tag]
+        var quiz = quizzes[sender.tag]
+        if isSearching {
+            quiz = searchedQuizzes[sender.tag]
+        }
         let quizTitle = quiz.quizTitle
         guard !SavedQuizModel.isDuplicate(quizTitle: quizTitle) else {
             showAlert(title: "Duplicate", message: "\(quizTitle) already exists in quizzes")
@@ -97,7 +100,6 @@ extension SearchQuizzesViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //guard let searchText = searchBar.text else { return }
         searchedQuizzes = quizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
         isSearching = true
         searchQuizzesView.collectionView.reloadData()
