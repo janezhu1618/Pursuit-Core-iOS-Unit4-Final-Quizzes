@@ -21,16 +21,24 @@ class QuizViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        //checkForUserDefaults()
         getSavedQuizzes()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(DataPersistenceManager.documentsDirectory())
         view.addSubview(quizView)
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self
     }
+    
+//    private func checkForUserDefaults() {
+//        if let _ = UserDefaults.standard.object(forKey: UserDefaultsKey.username) {
+//            getSavedQuizzes()
+//        } else {
+//            quizNoDataView.messageLabel.text = "Please log in to see quiz data."
+//        }
+//    }
     
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes()
@@ -41,6 +49,7 @@ class QuizViewController: UIViewController {
             quizView.collectionView.backgroundView = nil
         }
     }
+
 }
 
 extension QuizViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {

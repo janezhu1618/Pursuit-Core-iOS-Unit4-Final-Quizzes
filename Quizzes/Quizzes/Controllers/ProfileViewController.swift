@@ -14,6 +14,8 @@ class ProfileViewController: UIViewController {
     
     private var imagePickerViewController: UIImagePickerController!
     
+    private var username = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(profileView)
@@ -23,6 +25,19 @@ class ProfileViewController: UIViewController {
         profileView.userImageButton.addTarget(self, action: #selector(presentActionSheet), for: .touchUpInside)
         profileView.usernameButton.addTarget(self, action: #selector(changeUser), for: .touchUpInside)
     }
+    
+//    private func checkForUserDefaults() {
+//        if let _ = UserDefaults.standard.object(forKey: UserDefaultsKey.username) {
+//            let userInfo = SavedQuizModel.getUserInfo()
+//            if let image = userInfo.userImage {
+//                profileView.userImageButton.setImage(UIImage(data: image), for: .normal)
+//            profileView.usernameButton.setTitle(userInfo.username, for: .normal)
+//            }
+//        } else {
+//            showAlert(title: "Please log in", message: "")
+//        }
+//    }
+    
     @objc private func changeUser() {
         let alert = UIAlertController(title: "Log in", message: "Enter your log in info", preferredStyle: .alert)
         alert.addTextField { (textField) in
@@ -40,8 +55,8 @@ class ProfileViewController: UIViewController {
                 print("username nil")
                 return }
             self.profileView.usernameButton.setTitle("@" + username, for: .normal)
-            //TODO: figure out how to log into someone's profile
             SavedQuizModel.username = username
+            UserDefaults.standard.set(username, forKey: UserDefaultsKey.username)
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -75,6 +90,9 @@ class ProfileViewController: UIViewController {
         UIImageWriteToSavedPhotosAlbum(selectedImage, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
     
+//help source with saving photo from camera https://stackoverflow.com/questions/40854886/swift-take-a-photo-and-save-to-photo-library
+    
+    
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             showAlert(title: "Save error", message: error.localizedDescription)
@@ -94,13 +112,15 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            profileView.userImageButton.setImage(image, for: .normal)        } else {
+            profileView.userImageButton.setImage(image, for: .normal)
+            let userInfo = UserInfo.init(username: username, userImage: image.jpegData(compressionQuality: 0.5), savedQuiz: nil)
+            SavedQuizModel.saveUserInfo(userInfo: userInfo)
+        } else {
             print("original image is nil")
         }
         dismiss(animated: true, completion: nil)
     }
 }
-
-//help source with saving photo from camera https://stackoverflow.com/questions/40854886/swift-take-a-photo-and-save-to-photo-library

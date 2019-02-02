@@ -10,6 +10,11 @@ import UIKit
 
 class QuizView: UIView {
     
+    public lazy var searchBar: UISearchBar = {
+       let sb = UISearchBar()
+        return sb
+    }()
+    
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: 185, height: 185)
@@ -35,6 +40,7 @@ class QuizView: UIView {
         backgroundColor = .white
         collectionView.register(QuizCell.self, forCellWithReuseIdentifier: "QuizCell")
         setupCollectionView()
+        setupSearchBar()
     }
 
 }
@@ -43,10 +49,20 @@ extension QuizView {
     private func setupCollectionView() {
         addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        [collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0),
+        [collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 55),
          collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),
          collectionView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0),
          collectionView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: 0)
+            ].forEach{ $0.isActive = true }
+    }
+    
+    private func setupSearchBar() {
+        addSubview(searchBar)
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        [searchBar.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0),
+         searchBar.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),
+         searchBar.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: 0),
+         
             ].forEach{ $0.isActive = true }
     }
 }

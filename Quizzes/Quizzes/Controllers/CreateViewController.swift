@@ -41,7 +41,7 @@ class CreateViewController: UIViewController {
             return
         }
         if titleText != quizTitleTextFieldPlaceholder && fact1 != quizFact1TextViewPlaceholder && fact2 != quizFact2TextViewPlaceholder {
-            if SavedQuizModel.username == "" {
+            if UserDefaults.standard.object(forKey: UserDefaultsKey.username) == nil {
                 showAlert(title: "Unidentified User", message: "Please log in with username in Profile Screen first.")
             } else {
                 let date = Date()
@@ -58,7 +58,7 @@ class CreateViewController: UIViewController {
                 showAlert(title: "Success", message: "Quiz added to list.")
             }
         } else {
-            showAlert(title: "Error", message: "Make sure to enter info.")
+            showAlert(title: "Error", message: "Make sure to enter all fields.")
         }
     }
     
