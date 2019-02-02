@@ -26,6 +26,7 @@ class QuizViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(DataPersistenceManager.documentsDirectory())
         view.addSubview(quizView)
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self

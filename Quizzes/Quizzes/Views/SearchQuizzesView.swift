@@ -17,7 +17,7 @@ class SearchQuizzesView: UIView {
         layout.sectionInset = UIEdgeInsets(top: 11, left: 11, bottom: 11, right: 11)
         
         let cv = UICollectionView(frame: frame, collectionViewLayout: layout)
-        cv.backgroundColor = .blue
+        cv.backgroundColor = .white
         return cv
     }()
     

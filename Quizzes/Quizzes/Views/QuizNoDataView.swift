@@ -12,7 +12,7 @@ class QuizNoDataView: UIView {
 
     public lazy var messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "No quiz. Please log in to start adding or creating quizzes."
+        label.text = "Quiz data empty.\nPlease log in to start adding or creating quizzes."
         label.textAlignment = .center
         label.numberOfLines = 0
         return label

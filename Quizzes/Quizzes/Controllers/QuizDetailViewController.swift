@@ -8,8 +8,6 @@
 
 import UIKit
 
-//TODO: animate collectionviewcell
-
 class QuizDetailViewController: UIViewController {
     
     public var savedQuiz: SavedQuiz!
@@ -43,16 +41,22 @@ extension QuizDetailViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let quizDetailCell = quizDetailView.collectionView.dequeueReusableCell(withReuseIdentifier: "QuizDetailCell", for: indexPath) as? QuizDetailCell else { return UICollectionViewCell() }
-        quizDetailCell.quizLabel.text = savedQuiz.facts[indexPath.row]
+        quizDetailCell.quizLabel.text = savedQuiz.quizTitle
         return quizDetailCell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("collection view cell pressed at \(indexPath.row)")
-    let cell = quizDetailView.collectionView.cellForItem(at: indexPath)
-    UIView.animate(withDuration: 3, delay: 0.3, options: [.transitionFlipFromLeft], animations: {
-        cell?.transform = CGAffineTransform(rotationAngle: 90)
-        
-    }, completion: nil)
+        guard let cell = quizDetailView.collectionView.cellForItem(at: indexPath) as? QuizDetailCell else { return }
+        UIView.animate(withDuration: 0.5, delay: 0, options: [.transitionFlipFromLeft], animations: {
+        cell.transform = CGAffineTransform(scaleX: -1, y: 1)
+    }) { (done) in
+        cell.transform = CGAffineTransform.identity
+        cell.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+        if cell.quizLabel.text == self.savedQuiz.quizTitle {
+            cell.quizLabel.text = self.savedQuiz.facts[indexPath.row]
+        } else {
+            cell.quizLabel.text = self.savedQuiz.quizTitle
+        }
+        }
     }
 }

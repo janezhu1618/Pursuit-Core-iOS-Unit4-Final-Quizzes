@@ -34,7 +34,7 @@ class SearchCell: UICollectionViewCell {
     }
     
     private func commonInit() {
-        backgroundColor = .white
+        backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
         addSubview(quizTitleLabel)
         addSubview(addButton)
         setupQuizTitleLabel()
