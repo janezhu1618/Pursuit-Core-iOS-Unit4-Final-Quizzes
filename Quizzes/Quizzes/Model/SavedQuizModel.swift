@@ -61,4 +61,14 @@ struct SavedQuizModel {
         }
         return found
     }
+    
+//    static public func deleteByQuizTitle(quizTitle: String) {
+//        //not the most memory efficient way to do this, but it solves the problem for now
+//        for (index, quiz) in savedQuizzes.enumerated() {
+//            if quiz.quizTitle == quizTitle {
+//                savedQuizzes.remove(at: index)
+//            }
+//        }
+//        save()
+//    }
 }

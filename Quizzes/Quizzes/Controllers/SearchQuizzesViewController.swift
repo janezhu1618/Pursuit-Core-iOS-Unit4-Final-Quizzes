@@ -13,7 +13,8 @@ class SearchQuizzesViewController: UIViewController {
     private let searchQuizzesView = SearchQuizzesView()
     private var quizzes = [Quiz]()
     
-    private var searchedQuizzes = [Quiz]()
+    //setting the searchquizzes result to a new variable does not affect the original search results and allows the list (quizzes) to update dynamically between searches
+    private var searchResultsQuiz = [Quiz]()
     private var isSearching = false
 
     override func viewDidLoad() {
@@ -50,7 +51,7 @@ class SearchQuizzesViewController: UIViewController {
 extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if isSearching {
-            return searchedQuizzes.count
+            return searchResultsQuiz.count
         } else {
         return quizzes.count
         }
@@ -59,7 +60,7 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let searchCell = searchQuizzesView.collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCell", for: indexPath) as? SearchCell else { return UICollectionViewCell() }
         if isSearching {
-            searchCell.quizTitleLabel.text = searchedQuizzes[indexPath.row].quizTitle
+            searchCell.quizTitleLabel.text = searchResultsQuiz[indexPath.row].quizTitle
 
         } else {
             searchCell.quizTitleLabel.text = quizzes[indexPath.row].quizTitle
@@ -72,7 +73,7 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
     @objc private func addQuiz(sender: SearchCell) {
         var quiz = quizzes[sender.tag]
         if isSearching {
-            quiz = searchedQuizzes[sender.tag]
+            quiz = searchResultsQuiz[sender.tag]
         }
         let quizTitle = quiz.quizTitle
         guard !SavedQuizModel.isDuplicate(quizTitle: quizTitle) else {
@@ -100,7 +101,7 @@ extension SearchQuizzesViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchedQuizzes = quizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
+        searchResultsQuiz = quizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
         isSearching = true
         searchQuizzesView.collectionView.reloadData()
     }
