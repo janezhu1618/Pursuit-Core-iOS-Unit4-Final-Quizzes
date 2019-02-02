@@ -30,6 +30,11 @@ class QuizViewController: UIViewController {
         quizView.collectionView.delegate = self
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(true)
+        savedQuizzes.removeAll()
+    }
+    
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes()
         navigationItem.title = "Quizzes (\(savedQuizzes.count))"

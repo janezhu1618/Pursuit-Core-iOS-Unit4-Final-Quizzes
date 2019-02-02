@@ -6,13 +6,21 @@
 //  Copyright © 2019 Alex Paul. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct SavedQuizModel {
     static var savedQuizzes = [SavedQuiz]()
     
     static public func getfilename() -> String {
         return "\(UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String ?? "")SavedQuiz.plist"
+    }
+    
+//    static public func getUserImage() -> UIImage {
+//        return 
+//    }
+    
+    static public func saveUserInfo() {
+        
     }
     
     static public func getSavedQuizzes() -> [SavedQuiz] {
