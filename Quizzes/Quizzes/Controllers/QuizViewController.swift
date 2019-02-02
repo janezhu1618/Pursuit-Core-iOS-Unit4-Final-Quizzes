@@ -30,13 +30,13 @@ class QuizViewController: UIViewController {
         quizView.collectionView.delegate = self
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(true)
-        savedQuizzes.removeAll()
-    }
+//    override func viewDidDisappear(_ animated: Bool) {
+//        super.viewDidDisappear(true)
+//        savedQuizzes.removeAll()
+//    }
     
     fileprivate func getSavedQuizzes() {
-        savedQuizzes = SavedQuizModel.getSavedQuizzes()
+        savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz
         navigationItem.title = "Quizzes (\(savedQuizzes.count))"
         if savedQuizzes.isEmpty {
             quizView.collectionView.backgroundView = quizNoDataView

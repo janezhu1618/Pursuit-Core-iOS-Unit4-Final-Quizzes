@@ -11,7 +11,7 @@ import Foundation
 struct UserInfo: Codable {
     let username: String
     var userImage: Data?
-    let savedQuiz: [SavedQuiz]
+    var savedQuiz: [SavedQuiz]
 }
 
 struct SavedQuiz: Codable {

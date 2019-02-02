@@ -9,7 +9,9 @@
 import UIKit
 
 struct SavedQuizModel {
-    static var savedQuizzes = [SavedQuiz]()
+    
+    static var userProfile = UserInfo.init(username: UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String ?? "", userImage: UIImage(named: "placeholder-image")?.jpegData(compressionQuality: 0.5), savedQuiz: [SavedQuiz]())
+    //static var savedQuizzes = [SavedQuiz]()
     
     static public func getfilename() -> String {
         return "\(UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String ?? "")SavedQuiz.plist"
@@ -19,16 +21,17 @@ struct SavedQuizModel {
 //        return 
 //    }
     
-    static public func saveUserInfo() {
-        
+    static public func saveUserImage(newImage: Data) {
+        userProfile.userImage = newImage
+        save()
     }
     
-    static public func getSavedQuizzes() -> [SavedQuiz] {
+    static public func getSavedQuizzes() -> UserInfo {
         let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: getfilename()).path
         if FileManager.default.fileExists(atPath: path) {
             if let data = FileManager.default.contents(atPath: path) {
                 do {
-                    savedQuizzes = try PropertyListDecoder().decode([SavedQuiz].self, from: data)
+                    userProfile = try PropertyListDecoder().decode(UserInfo.self, from: data)
                 } catch {
                     print("property list decoding error getQuizzes - \(error)")
                 }
@@ -38,14 +41,14 @@ struct SavedQuizModel {
         } else {
             print("\(getfilename()) - does not exist ")
         }
-        savedQuizzes = savedQuizzes.sorted{ $0.date > $1.date }
-        return savedQuizzes
+        //savedQuizzes = savedQuizzes.sorted{ $0.date > $1.date }
+        return userProfile
     }
     
     static public func save() {
         let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: getfilename())
         do {
-            let data = try PropertyListEncoder().encode(savedQuizzes)
+            let data = try PropertyListEncoder().encode(userProfile)
             try data.write(to: path, options: Data.WritingOptions.atomic)
         } catch {
             print("property list encoding error at save(): \(error)")
@@ -54,17 +57,17 @@ struct SavedQuizModel {
     
     
     static public func add(newQuiz: SavedQuiz) {
-        savedQuizzes.append(newQuiz)
+        userProfile.savedQuiz.append(newQuiz)
         save()
     }
     
     static func delete(atIndex index: Int) {
-        savedQuizzes.remove(at: index)
+        userProfile.savedQuiz.remove(at: index)
         save()
     }
     
     static public func isDuplicate(quizTitle: String) -> Bool {
-        let index = getSavedQuizzes().index { $0.quizTitle == quizTitle }
+        let index = getSavedQuizzes().savedQuiz.index { $0.quizTitle == quizTitle }
         var found = false
         if let _ = index {
             found = true

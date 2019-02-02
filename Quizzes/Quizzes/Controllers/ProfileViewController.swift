@@ -20,6 +20,17 @@ class ProfileViewController: UIViewController {
         }
     }
     
+    fileprivate func checkForUserDefaultsSetting() {
+        if let username = UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String {
+            self.username = username
+            if let userImage = SavedQuizModel.getSavedQuizzes().userImage {
+                profileView.userImageButton.setImage(UIImage(data: userImage), for: .normal)
+            } else {
+                profileView.userImageButton.setImage(UIImage(named: "placeholder-image"), for: .normal)
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(profileView)
@@ -28,9 +39,7 @@ class ProfileViewController: UIViewController {
         imagePickerViewController.delegate = self
         profileView.userImageButton.addTarget(self, action: #selector(presentActionSheet), for: .touchUpInside)
         profileView.usernameButton.addTarget(self, action: #selector(changeUser), for: .touchUpInside)
-        if let username = UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String {
-            self.username = username
-        }
+        checkForUserDefaultsSetting()
     }
 
     
@@ -52,8 +61,9 @@ class ProfileViewController: UIViewController {
                 return }
             self.profileView.usernameButton.setTitle("@" + username, for: .normal)
             self.username = username
-            SavedQuizModel.savedQuizzes.removeAll()
+//            SavedQuizModel.savedQuizzes.removeAll()
             UserDefaults.standard.set(username, forKey: UserDefaultsKey.username)
+            self.checkForUserDefaultsSetting()
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -112,6 +122,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profileView.userImageButton.setImage(image, for: .normal)
+            if let imageToSave = image.jpegData(compressionQuality: 0.5) {
+                SavedQuizModel.saveUserImage(newImage: imageToSave)
+            }
             saveImageToPhotoLibrary()
             } else {
             print("original image is nil")
