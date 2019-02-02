@@ -14,7 +14,11 @@ class ProfileViewController: UIViewController {
     
     private var imagePickerViewController: UIImagePickerController!
     
-    private var username = ""
+    private var username = "" {
+        didSet {
+            profileView.usernameButton.setTitle("@" + username, for: .normal)
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +28,14 @@ class ProfileViewController: UIViewController {
         imagePickerViewController.delegate = self
         profileView.userImageButton.addTarget(self, action: #selector(presentActionSheet), for: .touchUpInside)
         profileView.usernameButton.addTarget(self, action: #selector(changeUser), for: .touchUpInside)
+        if let username = UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String {
+            self.username = username
+        }
     }
 
     
     @objc private func changeUser() {
-        let alert = UIAlertController(title: "Log in", message: "Enter your log in info", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Log in", message: "Enter your username", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.placeholder = "Username"
             textField.textAlignment = .center
@@ -44,7 +51,7 @@ class ProfileViewController: UIViewController {
                 print("username nil")
                 return }
             self.profileView.usernameButton.setTitle("@" + username, for: .normal)
-           // SavedQuizModel.username = username
+            self.username = username
             UserDefaults.standard.set(username, forKey: UserDefaultsKey.username)
         }))
         present(alert, animated: true, completion: nil)

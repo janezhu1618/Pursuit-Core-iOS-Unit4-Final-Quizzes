@@ -11,7 +11,7 @@ import Foundation
 final class QuizAPIClient {
     private init() { }
     static func getQuizzes(completionHandler: @escaping (AppError?, [Quiz]?) -> Void) {
-        NetworkHelper.shared.performDataTask(endpointURLString: "http://5c4d4c0d0de08100147c59b5.mockapi.io/api/v1/quizzes", httpMethod: "GET", httpBody: nil) { (appError, data) in
+        NetworkHelper.shared.performDataTask(endpointURLString: "https://quizzes-9ff59.firebaseio.com/.json", httpMethod: "GET", httpBody: nil) { (appError, data) in
             if let appError = appError {
                 completionHandler(appError, nil)
             }
