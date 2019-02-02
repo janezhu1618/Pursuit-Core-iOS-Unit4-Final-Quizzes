@@ -52,6 +52,7 @@ class ProfileViewController: UIViewController {
                 return }
             self.profileView.usernameButton.setTitle("@" + username, for: .normal)
             self.username = username
+            SavedQuizModel.savedQuizzes.removeAll()
             UserDefaults.standard.set(username, forKey: UserDefaultsKey.username)
         }))
         present(alert, animated: true, completion: nil)
