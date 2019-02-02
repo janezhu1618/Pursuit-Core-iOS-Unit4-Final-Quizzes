@@ -9,7 +9,8 @@
 import Foundation
 
 struct SavedQuizModel {
-    static let filename = "SaveQuiz.plist"
+    static var username = ""
+    static let filename = "\(username)SaveQuiz.plist"
     static var savedQuizzes = [SavedQuiz]()
     
     static public func getSavedQuizzes() -> [SavedQuiz] {

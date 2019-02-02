@@ -35,7 +35,6 @@ class SearchQuizzesView: UIView {
     private func commonInit() {
         backgroundColor = .white
         collectionView.register(SearchCell.self, forCellWithReuseIdentifier: "SearchCell")
-        addSubview(collectionView)
         setupCollectionView()
     }
 
@@ -43,6 +42,7 @@ class SearchQuizzesView: UIView {
 
 extension SearchQuizzesView {
     private func setupCollectionView() {
+        addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         [collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0),
         collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),

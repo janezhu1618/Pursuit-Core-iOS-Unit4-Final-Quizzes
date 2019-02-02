@@ -11,6 +11,7 @@ import UIKit
 class QuizViewController: UIViewController {
     
     private let quizView = QuizView()
+    private let quizNoDataView = QuizNoDataView()
     
     private var savedQuizzes = [SavedQuiz]() {
         didSet {
@@ -25,7 +26,6 @@ class QuizViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "Quizzes"
         view.addSubview(quizView)
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self
@@ -33,6 +33,12 @@ class QuizViewController: UIViewController {
     
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes()
+        navigationItem.title = "Quizzes (\(savedQuizzes.count))"
+        if savedQuizzes.isEmpty {
+            quizView.collectionView.backgroundView = quizNoDataView
+        } else {
+            quizView.collectionView.backgroundView = nil
+        }
     }
 }
 

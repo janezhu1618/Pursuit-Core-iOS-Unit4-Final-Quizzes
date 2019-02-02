@@ -49,10 +49,10 @@ extension QuizDetailViewController: UICollectionViewDataSource, UICollectionView
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         print("collection view cell pressed at \(indexPath.row)")
-//    guard let quizDetailCell = quizDetailView.collectionView.dequeueReusableCell(withReuseIdentifier: "QuizDetailCell", for: indexPath) as? QuizDetailCell else { return }
-//
-//        UIView.animate(withDuration: 3, delay: 0.3, options: [.transitionFlipFromLeft, animations: {
-//            self.quizDetailCell.quizLabel.text = savedQuiz.facts[indexPath.row]
-//        }, completion: nil)
+    let cell = quizDetailView.collectionView.cellForItem(at: indexPath)
+    UIView.animate(withDuration: 3, delay: 0.3, options: [.transitionFlipFromLeft], animations: {
+        cell?.transform = CGAffineTransform(rotationAngle: 90)
+        
+    }, completion: nil)
     }
 }

@@ -34,7 +34,7 @@ class SearchQuizzesViewController: UIViewController {
             if let appError = appError {
                 print("getQuizzes error - \(appError)")
             } else if let quizzes = quizzes {
-                self.quizzes = quizzes
+                self.quizzes = quizzes.sorted{ $0.quizTitle < $1.quizTitle }
             }
         }
     }
@@ -75,7 +75,6 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
                                           .withTimeZone,
                                           .withDashSeparatorInDate]
         let timeStamp = isoDateFormatter.string(from: date)
-        
         let quizToSave = SavedQuiz.init(quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
         SavedQuizModel.add(newQuiz: quizToSave)
         showAlert(title: "Success", message: "\(quizTitle) is successfully added to quizzes")

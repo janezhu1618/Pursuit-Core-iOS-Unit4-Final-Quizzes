@@ -41,18 +41,22 @@ class CreateViewController: UIViewController {
             return
         }
         if titleText != quizTitleTextFieldPlaceholder && fact1 != quizFact1TextViewPlaceholder && fact2 != quizFact2TextViewPlaceholder {
-        let date = Date()
-        let isoDateFormatter = ISO8601DateFormatter()
-        isoDateFormatter.formatOptions = [.withFullDate,
-                                          .withFullTime,
-                                          .withInternetDateTime,
-                                          .withTimeZone,
-                                          .withDashSeparatorInDate]
-        let timeStamp = isoDateFormatter.string(from: date)
-        let quizToSave = SavedQuiz.init(quizTitle: titleText, facts: [fact1, fact2], addedDate: timeStamp)
-        SavedQuizModel.add(newQuiz: quizToSave)
-        setupTextFieldAndTextView()
-            showAlert(title: "Success", message: "Quiz added to list.")
+            if SavedQuizModel.username == "" {
+                showAlert(title: "Unidentified User", message: "Please log in with username in Profile Screen first.")
+            } else {
+                let date = Date()
+                let isoDateFormatter = ISO8601DateFormatter()
+                isoDateFormatter.formatOptions = [.withFullDate,
+                                                  .withFullTime,
+                                                  .withInternetDateTime,
+                                                  .withTimeZone,
+                                                  .withDashSeparatorInDate]
+                let timeStamp = isoDateFormatter.string(from: date)
+                let quizToSave = SavedQuiz.init(quizTitle: titleText, facts: [fact1, fact2], addedDate: timeStamp)
+                SavedQuizModel.add(newQuiz: quizToSave)
+                setupTextFieldAndTextView()
+                showAlert(title: "Success", message: "Quiz added to list.")
+            }
         } else {
             showAlert(title: "Error", message: "Make sure to enter info.")
         }

@@ -17,18 +17,18 @@ class ProfileView: UIView {
         return button
     }()
     
-    public lazy var userImage: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "placeholder-image")
-        iv.layer.cornerRadius = iv.bounds.width / 2.0
-        return iv
+    public lazy var usernameButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("@noUsernameYet", for: .normal)
+        button.setTitleColor(.blue, for: .normal)
+        return button
     }()
-
+    
 
     override init(frame: CGRect) {
         super.init(frame: UIScreen.main.bounds)
         commonInit()
-        userImage.layer.cornerRadius = userImage.bounds.width / 2.0
+        userImageButton.layer.cornerRadius = userImageButton.bounds.width / 2.0
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -38,17 +38,27 @@ class ProfileView: UIView {
     
     private func commonInit() {
         backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-        addSubview(userImageButton)
         setupUserImageButton()
+        setupUsernameButton()
     }
 
 }
 extension ProfileView {
     private func setupUserImageButton() {
+        addSubview(userImageButton)
         userImageButton.translatesAutoresizingMaskIntoConstraints = false
         [userImageButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 22),
          userImageButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-         userImageButton.widthAnchor.constraint(equalToConstant: 100),
-         userImageButton.heightAnchor.constraint(equalToConstant: 100)].forEach{ $0.isActive = true }
+         userImageButton.widthAnchor.constraint(equalToConstant: 200),
+         userImageButton.heightAnchor.constraint(equalToConstant: 200)
+            ].forEach{ $0.isActive = true }
+    }
+    
+    private func setupUsernameButton() {
+        addSubview(usernameButton)
+        usernameButton.translatesAutoresizingMaskIntoConstraints = false
+        [usernameButton.topAnchor.constraint(equalTo: userImageButton.bottomAnchor, constant: 22),
+         usernameButton.centerXAnchor.constraint(equalTo: centerXAnchor)
+         ].forEach{ $0.isActive = true }
     }
 }

@@ -34,7 +34,6 @@ class QuizView: UIView {
     private func commonInit() {
         backgroundColor = .white
         collectionView.register(QuizCell.self, forCellWithReuseIdentifier: "QuizCell")
-        addSubview(collectionView)
         setupCollectionView()
     }
 
@@ -42,6 +41,7 @@ class QuizView: UIView {
 
 extension QuizView {
     private func setupCollectionView() {
+        addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         [collectionView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 0),
          collectionView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 0),

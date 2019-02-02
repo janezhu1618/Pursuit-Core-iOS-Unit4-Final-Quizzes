@@ -33,6 +33,7 @@
 		A5B724522204C73D004BC4DE /* QuizDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B724512204C73D004BC4DE /* QuizDetailView.swift */; };
 		A5B724542204C74A004BC4DE /* QuizDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B724532204C74A004BC4DE /* QuizDetailViewController.swift */; };
 		A5B724562204C77B004BC4DE /* QuizDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B724552204C77B004BC4DE /* QuizDetailCell.swift */; };
+		A5B7245A22054545004BC4DE /* QuizNoDataView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5B7245922054545004BC4DE /* QuizNoDataView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,7 @@
 		A5B724512204C73D004BC4DE /* QuizDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDetailView.swift; sourceTree = "<group>"; };
 		A5B724532204C74A004BC4DE /* QuizDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDetailViewController.swift; sourceTree = "<group>"; };
 		A5B724552204C77B004BC4DE /* QuizDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizDetailCell.swift; sourceTree = "<group>"; };
+		A5B7245922054545004BC4DE /* QuizNoDataView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizNoDataView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -172,6 +174,7 @@
 			isa = PBXGroup;
 			children = (
 				A5B724452204B02F004BC4DE /* QuizView.swift */,
+				A5B7245922054545004BC4DE /* QuizNoDataView.swift */,
 				A5B724512204C73D004BC4DE /* QuizDetailView.swift */,
 				A5B724382204A16F004BC4DE /* SearchQuizzesView.swift */,
 				A5B724472204B05E004BC4DE /* CreateView.swift */,
@@ -254,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				577118D722037ABA00B9DD0B /* NetworkHelper.swift in Sources */,
+				A5B7245A22054545004BC4DE /* QuizNoDataView.swift in Sources */,
 				A5B7243C2204A4E6004BC4DE /* SearchCell.swift in Sources */,
 				A5B724482204B05E004BC4DE /* CreateView.swift in Sources */,
 				A5B724422204AF9F004BC4DE /* CreateViewController.swift in Sources */,

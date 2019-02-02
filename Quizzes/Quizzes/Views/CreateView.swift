@@ -49,9 +49,6 @@ class CreateView: UIView {
     
     private func commonInit() {
         backgroundColor = .white
-        addSubview(quizTitleTextField)
-        addSubview(quizFact1TextView)
-        addSubview(quizFact2TextView)
         setupQuizTitleTextField()
         setupQuizFact1TextView()
         setupQuizFact2TextView()
@@ -61,6 +58,7 @@ class CreateView: UIView {
 
 extension CreateView {
     private func setupQuizTitleTextField() {
+        addSubview(quizTitleTextField)
         quizTitleTextField.translatesAutoresizingMaskIntoConstraints = false
         [quizTitleTextField.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 22),
          quizTitleTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 22),
@@ -70,6 +68,7 @@ extension CreateView {
     }
     
     private func setupQuizFact1TextView() {
+        addSubview(quizFact1TextView)
         quizFact1TextView.translatesAutoresizingMaskIntoConstraints = false
         [quizFact1TextView.topAnchor.constraint(equalTo: quizTitleTextField.bottomAnchor, constant: 22),
          quizFact1TextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 22),
@@ -80,6 +79,7 @@ extension CreateView {
     }
     
     private func setupQuizFact2TextView() {
+        addSubview(quizFact2TextView)
         quizFact2TextView.translatesAutoresizingMaskIntoConstraints = false
         [quizFact2TextView.topAnchor.constraint(equalTo: quizFact1TextView.bottomAnchor, constant: 22),
          quizFact2TextView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 22),
