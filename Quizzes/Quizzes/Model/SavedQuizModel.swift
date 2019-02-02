@@ -9,12 +9,14 @@
 import Foundation
 
 struct SavedQuizModel {
-//    static var username = UserDefaults.standard.object(forKey: UserDefaultsKey.username)
-    static let filename = "SaveQuiz.plist"
     static var savedQuizzes = [SavedQuiz]()
     
+    static public func getfilename() -> String {
+        return "\(UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String ?? "")SavedQuiz.plist"
+    }
+    
     static public func getSavedQuizzes() -> [SavedQuiz] {
-        let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: filename).path
+        let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: getfilename()).path
         if FileManager.default.fileExists(atPath: path) {
             if let data = FileManager.default.contents(atPath: path) {
                 do {
@@ -26,14 +28,14 @@ struct SavedQuizModel {
                 print("getQuizzes - data is nil")
             }
         } else {
-            print("\(filename) - does not exist ")
+            print("\(getfilename()) - does not exist ")
         }
         savedQuizzes = savedQuizzes.sorted{ $0.date > $1.date }
         return savedQuizzes
     }
     
     static public func save() {
-        let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: filename)
+        let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: getfilename())
         do {
             let data = try PropertyListEncoder().encode(savedQuizzes)
             try data.write(to: path, options: Data.WritingOptions.atomic)
