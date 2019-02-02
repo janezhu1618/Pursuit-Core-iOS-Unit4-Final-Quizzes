@@ -101,7 +101,7 @@ extension SearchQuizzesViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchResultsQuiz = quizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
+        searchResultsQuiz = quizzes.filter{ $0.quizTitle.lowercased().contains(searchText.lowercased()) }
         isSearching = true
         searchQuizzesView.collectionView.reloadData()
     }
