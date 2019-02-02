@@ -34,6 +34,8 @@ class CreateViewController: UIViewController {
     }
     
     @objc private func createQuiz() {
+        [createView.quizFact1TextView, createView.quizFact2TextView, createView.quizTitleTextField].forEach{ $0.resignFirstResponder() }
+        createView.quizTitleTextField.resignFirstResponder()
         guard let titleText = createView.quizTitleTextField.text,
             let fact1 = createView.quizFact1TextView.text,
             let fact2 = createView.quizFact1TextView.text else {

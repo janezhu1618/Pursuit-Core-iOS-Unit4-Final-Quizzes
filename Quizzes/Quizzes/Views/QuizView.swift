@@ -17,7 +17,7 @@ class QuizView: UIView {
     
     public lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
-        layout.itemSize = CGSize(width: 185, height: 185)
+        layout.itemSize = CGSize(width: 175, height: 175)
         layout.scrollDirection = .vertical
         layout.sectionInset = UIEdgeInsets(top: 11, left: 11, bottom: 11, right: 11)
         
