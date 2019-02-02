@@ -11,19 +11,16 @@ import UIKit
 class SearchQuizzesViewController: UIViewController {
     
     private let searchQuizzesView = SearchQuizzesView()
+    private var quizzes = [Quiz]()
     
-    private var quizzes = [Quiz]() {
-        didSet {
-            DispatchQueue.main.async {
-                self.searchQuizzesView.collectionView.reloadData()
-            }
-        }
-    }
+    private var searchedQuizzes = [Quiz]()
+    private var isSearching = false
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.title = "Search Quizzes"
         self.view.addSubview(searchQuizzesView)
+        searchQuizzesView.searchBar.delegate = self
         searchQuizzesView.collectionView.dataSource = self
         searchQuizzesView.collectionView.delegate = self
         getQuizzes()
@@ -35,6 +32,9 @@ class SearchQuizzesViewController: UIViewController {
                 print("getQuizzes error - \(appError)")
             } else if let quizzes = quizzes {
                 self.quizzes = quizzes.sorted{ $0.quizTitle < $1.quizTitle }
+                DispatchQueue.main.async {
+                    self.searchQuizzesView.collectionView.reloadData()
+                }
             }
         }
     }
@@ -49,12 +49,21 @@ class SearchQuizzesViewController: UIViewController {
 
 extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if isSearching {
+            return searchedQuizzes.count
+        } else {
         return quizzes.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let searchCell = searchQuizzesView.collectionView.dequeueReusableCell(withReuseIdentifier: "SearchCell", for: indexPath) as? SearchCell else { return UICollectionViewCell() }
-        searchCell.quizTitleLabel.text = quizzes[indexPath.row].quizTitle
+        if isSearching {
+            searchCell.quizTitleLabel.text = searchedQuizzes[indexPath.row].quizTitle
+
+        } else {
+            searchCell.quizTitleLabel.text = quizzes[indexPath.row].quizTitle
+        }
         searchCell.addButton.tag = indexPath.row
         searchCell.addButton.addTarget(self, action: #selector(addQuiz), for: .touchUpInside)
         return searchCell
@@ -78,5 +87,19 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
         let quizToSave = SavedQuiz.init(quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
         SavedQuizModel.add(newQuiz: quizToSave)
         showAlert(title: "Success", message: "\(quizTitle) is successfully added to quizzes")
+    }
+}
+
+
+extension SearchQuizzesViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        //guard let searchText = searchBar.text else { return }
+        searchedQuizzes = quizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
+        isSearching = true
+        searchQuizzesView.collectionView.reloadData()
     }
 }
