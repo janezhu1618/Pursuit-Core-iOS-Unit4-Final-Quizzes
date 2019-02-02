@@ -13,6 +13,7 @@ class ProfileViewController: UIViewController {
     private let profileView = ProfileView()
     
     private var imagePickerViewController: UIImagePickerController!
+    private var isImageFromCamera = false
     
     private var username = "" {
         didSet {
@@ -77,6 +78,7 @@ class ProfileViewController: UIViewController {
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
             self.imagePickerViewController.sourceType = .camera
+            self.isImageFromCamera = true
             self.showImagePickerViewController()
             }))
         }
@@ -97,6 +99,11 @@ class ProfileViewController: UIViewController {
     }
     
 //help source with saving photo from camera https://stackoverflow.com/questions/40854886/swift-take-a-photo-and-save-to-photo-library
+    
+    private enum ImageSource {
+        case camera
+        case photoLibrary
+    }
     
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
@@ -125,7 +132,9 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
             if let imageToSave = image.jpegData(compressionQuality: 0.5) {
                 SavedQuizModel.saveUserImage(newImage: imageToSave)
             }
-            saveImageToPhotoLibrary()
+            if isImageFromCamera {
+                saveImageToPhotoLibrary()
+            }
             } else {
             print("original image is nil")
         }
