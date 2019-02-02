@@ -25,18 +25,7 @@ class ProfileViewController: UIViewController {
         profileView.userImageButton.addTarget(self, action: #selector(presentActionSheet), for: .touchUpInside)
         profileView.usernameButton.addTarget(self, action: #selector(changeUser), for: .touchUpInside)
     }
-    
-//    private func checkForUserDefaults() {
-//        if let _ = UserDefaults.standard.object(forKey: UserDefaultsKey.username) {
-//            let userInfo = SavedQuizModel.getUserInfo()
-//            if let image = userInfo.userImage {
-//                profileView.userImageButton.setImage(UIImage(data: image), for: .normal)
-//            profileView.usernameButton.setTitle(userInfo.username, for: .normal)
-//            }
-//        } else {
-//            showAlert(title: "Please log in", message: "")
-//        }
-//    }
+
     
     @objc private func changeUser() {
         let alert = UIAlertController(title: "Log in", message: "Enter your log in info", preferredStyle: .alert)
@@ -55,7 +44,7 @@ class ProfileViewController: UIViewController {
                 print("username nil")
                 return }
             self.profileView.usernameButton.setTitle("@" + username, for: .normal)
-            SavedQuizModel.username = username
+           // SavedQuizModel.username = username
             UserDefaults.standard.set(username, forKey: UserDefaultsKey.username)
         }))
         present(alert, animated: true, completion: nil)
@@ -68,7 +57,6 @@ class ProfileViewController: UIViewController {
             self.showImagePickerViewController()
         }))
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
-            print("no camera available")
         alert.addAction(UIAlertAction(title: "Camera", style: .default, handler: { (action) in
             self.imagePickerViewController.sourceType = .camera
             self.showImagePickerViewController()
@@ -116,9 +104,8 @@ extension ProfileViewController: UIImagePickerControllerDelegate, UINavigationCo
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             profileView.userImageButton.setImage(image, for: .normal)
-            let userInfo = UserInfo.init(username: username, userImage: image.jpegData(compressionQuality: 0.5), savedQuiz: nil)
-            SavedQuizModel.saveUserInfo(userInfo: userInfo)
-        } else {
+            saveImageToPhotoLibrary()
+            } else {
             print("original image is nil")
         }
         dismiss(animated: true, completion: nil)

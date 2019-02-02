@@ -21,7 +21,6 @@ class QuizViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        //checkForUserDefaults()
         getSavedQuizzes()
     }
 
@@ -31,14 +30,6 @@ class QuizViewController: UIViewController {
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self
     }
-    
-//    private func checkForUserDefaults() {
-//        if let _ = UserDefaults.standard.object(forKey: UserDefaultsKey.username) {
-//            getSavedQuizzes()
-//        } else {
-//            quizNoDataView.messageLabel.text = "Please log in to see quiz data."
-//        }
-//    }
     
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes()

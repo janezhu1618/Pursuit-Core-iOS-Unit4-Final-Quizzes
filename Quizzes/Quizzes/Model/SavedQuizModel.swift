@@ -9,38 +9,9 @@
 import Foundation
 
 struct SavedQuizModel {
-    static var username = UserDefaults.standard.object(forKey: UserDefaultsKey.username)
-    static let filename = "\(username ?? "")SaveQuiz.plist"
+//    static var username = UserDefaults.standard.object(forKey: UserDefaultsKey.username)
+    static let filename = "SaveQuiz.plist"
     static var savedQuizzes = [SavedQuiz]()
-//    static var userInfo: UserInfo?
-//    
-//    static public func getUserInfo() -> UserInfo {
-//        let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: filename).path
-//        if FileManager.default.fileExists(atPath: path) {
-//            if let data = FileManager.default.contents(atPath: path) {
-//                do {
-//                    userInfo = try PropertyListDecoder().decode(UserInfo.self, from: data)
-//                } catch {
-//                    print("property list decoding error getUserInfo - \(error)")
-//                }
-//            } else {
-//                print("getQuizzes - data is nil")
-//            }
-//        } else {
-//            print("\(filename) - does not exist ")
-//        }
-//        return userInfo!
-//    }
-    
-    static public func saveUserInfo(userInfo: UserInfo) {
-        let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: filename)
-        do {
-            let data = try PropertyListEncoder().encode(userInfo)
-            try data.write(to: path, options: Data.WritingOptions.atomic)
-        } catch {
-            print("property list encoding error at save(): \(error)")
-        }
-    }
     
     static public func getSavedQuizzes() -> [SavedQuiz] {
         let path = DataPersistenceManager.filepathToDocumentsDiretory(filename: filename).path
