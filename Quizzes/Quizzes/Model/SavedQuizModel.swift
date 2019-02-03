@@ -11,15 +11,10 @@ import UIKit
 struct SavedQuizModel {
     
     static var userProfile = UserInfo.init(username: UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String ?? "", userImage: UIImage(named: "placeholder-image")?.jpegData(compressionQuality: 0.5), savedQuiz: [SavedQuiz]())
-    //static var savedQuizzes = [SavedQuiz]()
     
     static public func getfilename() -> String {
         return "\(UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String ?? "")SavedQuiz.plist"
     }
-    
-//    static public func getUserImage() -> UIImage {
-//        return 
-//    }
     
     static public func saveUserImage(newImage: Data) {
         userProfile.userImage = newImage
@@ -41,7 +36,6 @@ struct SavedQuizModel {
         } else {
             print("\(getfilename()) - does not exist ")
         }
-        //savedQuizzes = savedQuizzes.sorted{ $0.date > $1.date }
         return userProfile
     }
     
@@ -75,13 +69,12 @@ struct SavedQuizModel {
         return found
     }
     
-//    static public func deleteByQuizTitle(quizTitle: String) {
-//        //not the most memory efficient way to do this, but it solves the problem for now
-//        for (index, quiz) in savedQuizzes.enumerated() {
-//            if quiz.quizTitle == quizTitle {
-//                savedQuizzes.remove(at: index)
-//            }
-//        }
-//        save()
-//    }
+    static public func deleteByQuizTitle(quizToDelete: SavedQuiz) {
+        for (index, quiz) in userProfile.savedQuiz.enumerated() {
+            if quiz.id == quizToDelete.id {
+                userProfile.savedQuiz.remove(at: index)
+            }
+        }
+        save()
+    }
 }

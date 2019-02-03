@@ -15,7 +15,8 @@ class QuizViewController: UIViewController {
     
     private var savedQuizzes = [SavedQuiz]()
     
-    //TODO: finish implementing searchbar delegation, search results should be able to be deleted at the right index number
+    private var searchResults = [SavedQuiz]()
+    private var isSearching = false
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
@@ -36,14 +37,14 @@ class QuizViewController: UIViewController {
 //    }
     
     fileprivate func getSavedQuizzes() {
-        savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz
+        savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz.sorted{ $0.date > $1.date }
         navigationItem.title = "Quizzes (\(savedQuizzes.count))"
         if savedQuizzes.isEmpty {
             quizView.collectionView.backgroundView = quizNoDataView
         } else {
             quizView.collectionView.backgroundView = nil
-            quizView.collectionView.reloadData()
         }
+        quizView.collectionView.reloadData()
     }
 
 }
@@ -64,6 +65,7 @@ extension QuizViewController: UICollectionViewDataSource, UICollectionViewDelega
     @objc private func moreOptionsPressed(sender: QuizCell) {
         let alert = UIAlertController(title: "", message: "What would you like to do?", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+            
             SavedQuizModel.delete(atIndex: sender.tag)
             self.getSavedQuizzes()
         }))
@@ -83,7 +85,7 @@ extension QuizViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        savedQuizzes = savedQuizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
+        searchResults = savedQuizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
         quizView.collectionView.reloadData()
     }
 }

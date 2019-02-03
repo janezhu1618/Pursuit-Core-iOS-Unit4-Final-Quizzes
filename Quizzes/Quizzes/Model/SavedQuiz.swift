@@ -15,6 +15,7 @@ struct UserInfo: Codable {
 }
 
 struct SavedQuiz: Codable {
+    let id: Int
     let quizTitle: String
     let facts: [String]
     var addedDate: String

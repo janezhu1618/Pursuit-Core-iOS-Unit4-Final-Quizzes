@@ -21,12 +21,14 @@ class ProfileViewController: UIViewController {
         }
     }
     
-    fileprivate func checkForUserDefaultsSetting() {
-        if let username = UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String {
-            self.username = username
+    fileprivate func updateUIBasedOnUserDefaults() {
+        if let usernameFromUserDefaults = UserDefaults.standard.object(forKey: UserDefaultsKey.username) as? String {
+            self.username = usernameFromUserDefaults
+//            profileView.userImageButton.setImage(UIImage(named: "placeholder-image"), for: .normal)
             if let userImage = SavedQuizModel.getSavedQuizzes().userImage {
                 profileView.userImageButton.setImage(UIImage(data: userImage), for: .normal)
             } else {
+                SavedQuizModel.userProfile.userImage = UIImage(named: "placeholder-image")!.jpegData(compressionQuality: 0.5)
                 profileView.userImageButton.setImage(UIImage(named: "placeholder-image"), for: .normal)
             }
         }
@@ -39,32 +41,27 @@ class ProfileViewController: UIViewController {
         imagePickerViewController = UIImagePickerController()
         imagePickerViewController.delegate = self
         profileView.userImageButton.addTarget(self, action: #selector(presentActionSheet), for: .touchUpInside)
-        profileView.usernameButton.addTarget(self, action: #selector(changeUser), for: .touchUpInside)
-        checkForUserDefaultsSetting()
+        profileView.usernameButton.addTarget(self, action: #selector(buttonToChangeUser), for: .touchUpInside)
+        updateUIBasedOnUserDefaults()
     }
 
     
-    @objc private func changeUser() {
+    @objc private func buttonToChangeUser() {
         let alert = UIAlertController(title: "Log in", message: "Enter your username", preferredStyle: .alert)
         alert.addTextField { (textField) in
             textField.placeholder = "Username"
             textField.textAlignment = .center
         }
-//        alert.addTextField { (textField) in
-//            textField.placeholder = "Password"
-//            textField.textAlignment = .center
-//            textField.isSecureTextEntry = true
-//        }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Submit", style: .default, handler: { (submit) in
-            guard let username = alert.textFields?.first?.text else {
+            alert.textFields?.first?.resignFirstResponder()
+            guard let usernameFromTextField = alert.textFields?.first?.text?.replacingOccurrences(of: " ", with: "") else {
                 print("username nil")
                 return }
-            self.profileView.usernameButton.setTitle("@" + username, for: .normal)
-            self.username = username
-//            SavedQuizModel.savedQuizzes.removeAll()
-            UserDefaults.standard.set(username, forKey: UserDefaultsKey.username)
-            self.checkForUserDefaultsSetting()
+            UserDefaults.standard.set(usernameFromTextField, forKey: UserDefaultsKey.username)
+            self.username = usernameFromTextField
+            SavedQuizModel.userProfile.savedQuiz.removeAll()
+            self.updateUIBasedOnUserDefaults()
         }))
         present(alert, animated: true, completion: nil)
     }
@@ -73,6 +70,7 @@ class ProfileViewController: UIViewController {
         let alert = UIAlertController(title: "", message: "Choose a new user photo?", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Photo Library", style: .default, handler: { (action) in
             self.imagePickerViewController.sourceType = .photoLibrary
+             self.isImageFromCamera = false
             self.showImagePickerViewController()
         }))
         if UIImagePickerController.isSourceTypeAvailable(.camera) {
@@ -99,11 +97,6 @@ class ProfileViewController: UIViewController {
     }
     
 //help source with saving photo from camera https://stackoverflow.com/questions/40854886/swift-take-a-photo-and-save-to-photo-library
-    
-    private enum ImageSource {
-        case camera
-        case photoLibrary
-    }
     
     
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
