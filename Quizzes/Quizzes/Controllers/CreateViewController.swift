@@ -38,7 +38,7 @@ class CreateViewController: UIViewController {
         createView.quizTitleTextField.resignFirstResponder()
         guard let titleText = createView.quizTitleTextField.text,
             let fact1 = createView.quizFact1TextView.text,
-            let fact2 = createView.quizFact1TextView.text else {
+            let fact2 = createView.quizFact2TextView.text else {
             showAlert(title: "Error", message: "Make sure all fields are filled in.")
             return
         }

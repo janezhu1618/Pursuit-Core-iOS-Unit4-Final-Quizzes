@@ -30,20 +30,30 @@ class QuizViewController: UIViewController {
         super.viewWillAppear(true)
         getSavedQuizzes()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(quizView)
         quizView.searchBar.delegate = self
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self
-//        let gesture = UITapGestureRecognizer(target: self, action: #selector(resignKeyboard))
-//        view.addGestureRecognizer(gesture)
+        setupKeyboardToolbar()
     }
     
-//    @objc private func resignKeyboard() {
-//        quizView.searchBar.resignFirstResponder()
-//    }
+    fileprivate func setupKeyboardToolbar() {
+        let toolbar = UIToolbar(frame: CGRect(x: 0, y: 0,  width: self.view.frame.size.width, height: 30))
+        let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let doneBtn: UIBarButtonItem = UIBarButtonItem(title: "Done", style: .done
+            , target: self, action: #selector(doneButtonAction))
+        toolbar.setItems([flexSpace, doneBtn], animated: false)
+        toolbar.sizeToFit()
+        quizView.searchBar.inputAccessoryView = toolbar
+    }
+    //source https://medium.com/@KaushElsewhere/how-to-dismiss-keyboard-in-a-view-controller-of-ios-3b1bfe973ad1
+    @objc private func doneButtonAction() {
+        self.view.endEditing(true)
+    }
+    
     
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz
