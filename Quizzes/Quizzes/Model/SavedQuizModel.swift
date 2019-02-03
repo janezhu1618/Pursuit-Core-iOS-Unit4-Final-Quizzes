@@ -71,12 +71,7 @@ struct SavedQuizModel {
     }
     
     static public func deleteSpecificQuiz(quizToDelete: SavedQuiz) {
-        userProfile.savedQuiz.removeAll(where: { $0.quizTitle == quizToDelete.quizTitle })
-//        for (index, quiz) in userProfile.savedQuiz.enumerated() {
-//            if quiz.id == quizToDelete.id {
-//                userProfile.savedQuiz.remove(at: index)
-//            }
-//        }
+        userProfile.savedQuiz.removeAll(where: { $0.id == quizToDelete.id })
         save()
     }
 }

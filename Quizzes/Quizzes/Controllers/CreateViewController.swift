@@ -54,7 +54,7 @@ class CreateViewController: UIViewController {
                                                   .withTimeZone,
                                                   .withDashSeparatorInDate]
                 let timeStamp = isoDateFormatter.string(from: date)
-                let quizToSave = SavedQuiz.init(id: SavedQuizModel.userProfile.savedQuiz.count+1, quizTitle: titleText, facts: [fact1, fact2], addedDate: timeStamp)
+                let quizToSave = SavedQuiz.init(id: UUID().uuidString, quizTitle: titleText, facts: [fact1, fact2], addedDate: timeStamp)
                 SavedQuizModel.add(newQuiz: quizToSave)
                 setupTextFieldAndTextView()
                 showAlert(title: "Success", message: "Quiz added to list.")

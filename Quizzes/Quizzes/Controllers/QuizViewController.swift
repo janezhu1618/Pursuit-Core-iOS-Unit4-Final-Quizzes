@@ -19,7 +19,11 @@ class QuizViewController: UIViewController {
         }
     }
     
-    private var searchResults = [SavedQuiz]()
+    private var searchResults = [SavedQuiz]() {
+        didSet {
+            quizView.collectionView.reloadData()
+        }
+    }
     private var isSearching = false
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,7 +37,13 @@ class QuizViewController: UIViewController {
         quizView.searchBar.delegate = self
         quizView.collectionView.dataSource = self
         quizView.collectionView.delegate = self
+//        let gesture = UITapGestureRecognizer(target: self, action: #selector(resignKeyboard))
+//        view.addGestureRecognizer(gesture)
     }
+    
+//    @objc private func resignKeyboard() {
+//        quizView.searchBar.resignFirstResponder()
+//    }
     
     fileprivate func getSavedQuizzes() {
         savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz
@@ -98,12 +108,6 @@ extension QuizViewController: UISearchBarDelegate {
         searchResults = savedQuizzes
         searchResults = savedQuizzes.filter{ $0.quizTitle.lowercased().contains(searchText.lowercased()) || $0.quizTitle.lowercased().hasPrefix(searchText.lowercased()) }
         isSearching = true
-        quizView.collectionView.reloadData()
     }
-    
-//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-//        isSearching = false
-//        quizView.collectionView.reloadData()
-//    }
     
 }

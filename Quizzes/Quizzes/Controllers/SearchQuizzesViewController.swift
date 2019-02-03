@@ -88,7 +88,7 @@ extension SearchQuizzesViewController: UICollectionViewDataSource, UICollectionV
                                           .withTimeZone,
                                           .withDashSeparatorInDate]
         let timeStamp = isoDateFormatter.string(from: date)
-        let quizToSave = SavedQuiz.init(id: SavedQuizModel.userProfile.savedQuiz.count+1, quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
+        let quizToSave = SavedQuiz.init(id: UUID().uuidString, quizTitle: quizTitle, facts: quiz.facts, addedDate: timeStamp)
         SavedQuizModel.add(newQuiz: quizToSave)
         showAlert(title: "Success", message: "\(quizTitle) is successfully added to quizzes")
     }
