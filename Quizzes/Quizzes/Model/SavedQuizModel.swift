@@ -36,6 +36,7 @@ struct SavedQuizModel {
         } else {
             print("\(getfilename()) - does not exist ")
         }
+        userProfile.savedQuiz = userProfile.savedQuiz.sorted{ $0.date > $1.date }
         return userProfile
     }
     
@@ -69,12 +70,13 @@ struct SavedQuizModel {
         return found
     }
     
-    static public func deleteByQuizTitle(quizToDelete: SavedQuiz) {
-        for (index, quiz) in userProfile.savedQuiz.enumerated() {
-            if quiz.id == quizToDelete.id {
-                userProfile.savedQuiz.remove(at: index)
-            }
-        }
+    static public func deleteSpecificQuiz(quizToDelete: SavedQuiz) {
+        userProfile.savedQuiz.removeAll(where: { $0.quizTitle == quizToDelete.quizTitle })
+//        for (index, quiz) in userProfile.savedQuiz.enumerated() {
+//            if quiz.id == quizToDelete.id {
+//                userProfile.savedQuiz.remove(at: index)
+//            }
+//        }
         save()
     }
 }

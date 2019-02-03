@@ -13,7 +13,11 @@ class QuizViewController: UIViewController {
     private let quizView = QuizView()
     private let quizNoDataView = QuizNoDataView()
     
-    private var savedQuizzes = [SavedQuiz]()
+    private var savedQuizzes = [SavedQuiz]() {
+        didSet {
+            quizView.collectionView.reloadData()
+        }
+    }
     
     private var searchResults = [SavedQuiz]()
     private var isSearching = false
@@ -31,32 +35,34 @@ class QuizViewController: UIViewController {
         quizView.collectionView.delegate = self
     }
     
-//    override func viewDidDisappear(_ animated: Bool) {
-//        super.viewDidDisappear(true)
-//        savedQuizzes.removeAll()
-//    }
-    
     fileprivate func getSavedQuizzes() {
-        savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz.sorted{ $0.date > $1.date }
+        savedQuizzes = SavedQuizModel.getSavedQuizzes().savedQuiz
         navigationItem.title = "Quizzes (\(savedQuizzes.count))"
         if savedQuizzes.isEmpty {
             quizView.collectionView.backgroundView = quizNoDataView
         } else {
             quizView.collectionView.backgroundView = nil
         }
-        quizView.collectionView.reloadData()
     }
 
 }
 
 extension QuizViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return savedQuizzes.count
+        if isSearching {
+            return searchResults.count
+        } else {
+            return savedQuizzes.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let quizCell = quizView.collectionView.dequeueReusableCell(withReuseIdentifier: "QuizCell", for: indexPath) as? QuizCell else { return UICollectionViewCell() }
-        quizCell.quizTitleLabel.text = savedQuizzes[indexPath.row].quizTitle
+        if isSearching {
+            quizCell.quizTitleLabel.text = searchResults[indexPath.row].quizTitle
+        } else {
+            quizCell.quizTitleLabel.text = savedQuizzes[indexPath.row].quizTitle
+        }
         quizCell.moreOptionsButton.tag = indexPath.row
         quizCell.moreOptionsButton.addTarget(self, action: #selector(moreOptionsPressed), for: .touchUpInside)
         return quizCell
@@ -65,8 +71,12 @@ extension QuizViewController: UICollectionViewDataSource, UICollectionViewDelega
     @objc private func moreOptionsPressed(sender: QuizCell) {
         let alert = UIAlertController(title: "", message: "What would you like to do?", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-            
-            SavedQuizModel.delete(atIndex: sender.tag)
+            if self.isSearching {
+                SavedQuizModel.deleteSpecificQuiz(quizToDelete: self.searchResults[sender.tag])
+            } else {
+                SavedQuizModel.delete(atIndex: sender.tag)
+            }
+            self.isSearching = false
             self.getSavedQuizzes()
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -85,7 +95,15 @@ extension QuizViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchResults = savedQuizzes.filter{ $0.quizTitle.lowercased().prefix(searchText.count) == searchText.lowercased() }
+        searchResults = savedQuizzes
+        searchResults = savedQuizzes.filter{ $0.quizTitle.lowercased().contains(searchText.lowercased()) || $0.quizTitle.lowercased().hasPrefix(searchText.lowercased()) }
+        isSearching = true
         quizView.collectionView.reloadData()
     }
+    
+//    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+//        isSearching = false
+//        quizView.collectionView.reloadData()
+//    }
+    
 }
